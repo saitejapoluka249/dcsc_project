@@ -52,8 +52,8 @@ The Community Event Organizer is a web application that allows users to create, 
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/cu-csci-4253-datacenter-fall-2024/finalproject-final-project-team-54.git
-cd finalproject-final-project-team-54
+git clone https://github.com/saitejapoluka249/dcsc_project.git
+cd dcsc_project
 ```
 
 ### Setting Up the Virtual Machine (VM)
