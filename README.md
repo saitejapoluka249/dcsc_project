@@ -134,5 +134,5 @@ pip install -r requirements.txt
 
 ## Project Working Demo 
 
-- **Youtube Link ** https://www.youtube.com/watch?v=hAmtNVkuwIY
+- **Youtube Link** https://www.youtube.com/watch?v=hAmtNVkuwIY
 
