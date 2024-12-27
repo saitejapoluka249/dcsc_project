@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Event Organizer - Events</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- For icons -->
+    <style>
+      /* Remove any outline that may cause blue lines */
+body, .sidebar, .container {
+    outline: none;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 220px;
+    background-color: #424242;
+    padding-top: 20px;
+    position: fixed;
+    height: 100%;
+    top: 0;
+    left: 0;
+    box-shadow: none;  /* Remove any shadow */
+    border-right: none; /* Ensure no border */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Ensure no additional padding/margin in calculations */
+}
+
+/* Ensure body has no extra margin or padding */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    display: flex;
+    overflow-x: hidden; /* Prevent horizontal overflow */
+    box-sizing: border-box; /* Prevent overflow issues */
+}
+
+/* Container for the main content */
+.container {
+    margin-left: 240px; /* Ensure no overlap with sidebar */
+    background-color: #ffffff;
+    width: calc(100% - 240px);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    overflow-x: hidden; /* Prevent overflow */
+    box-sizing: border-box; /* Prevent issues with sizing */
+}
+
+
+        .sidebar a {
+            display: block;
+            padding: 12px 24px;
+            text-decoration: none;
+            font-size: 16px;
+            color: #FF416C;
+            margin: 8px 0;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar a:hover {
+            background-color:  #b0c6e5;
+        }
+        .sidebar a:hover:not(.active) {
+            background-color: #555; /* Dark grey on hover */
+            color: white;
+        }
+        
+
+        .sidebar a.active {
+            background-color: #FF416C; /* Active link color */
+            color: white;
+        }
+        
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #4CAF50;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* Event Listings */
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            background-color: #f9f9f9;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .event-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .event-details {
+            color: #555;
+            font-size: 16px;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .dropbtn {
+            font-size: 16px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .rsvp-status {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        .rsvp-link {
+            color: #4CAF50;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .rsvp-link:hover {
+            color: #388E3C;
+        }
+
+        /* Edit and Cancel Event Button Styles */
+        .edit-btn, .cancel-btn, .feedback-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+
+        .edit-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .edit-btn:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+        }
+
+        .cancel-btn {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .cancel-btn:hover {
+            background-color: #d32f2f;
+            transform: translateY(-2px);
+        }
+
+        .cancel-btn:active {
+            transform: translateY(0);
+        }
+
+        .feedback-btn {
+            background-color: #ff9800;
+            color: white;
+        }
+
+        .feedback-btn:hover {
+            background-color: #f57c00;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <a href="/create_event" class="create-event-link">Create Event</a>
+        <a href="/past_events" class="past-event-link">Past Events</a>
+        <a href="/filter_page" class="filter-event-link">Filter</a>
+        <a href="/logout" class="logout-link">Logout</a>
+    </div>
+
+    <!-- Profile Dropdown -->
+    <div class="dropdown">
+        <button class="dropbtn">
+            <img src="{{ profile_image if profile_image else 'https://storage.googleapis.com/my-event-images-bucket/plain.jpg' }}" alt="User Profile" style="width: 40px; height: 40px; border-radius: 50%;">
+        </button>        
+        <div class="dropdown-content">
+            <a href="/viewprofile">View Profile</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1>Upcoming Events</h1>
+
+        <!-- Event Listings -->
+        <ul>
+            {% for event in events %}
+            <li>
+                <div class="event-title">{{ event.title }}</div>
+                <div class="event-details">
+                    <p>{{ event.description }}</p>
+                    <p><strong>Date:</strong> {{ event.event_date.strftime('%d-%m-%Y') }}</p>
+                    <!-- Display Event Image -->
+                    {% if event.image %}
+                    <img src="{{ event.image }}" alt="Event Image" style="width: 700px; height: auto;"><br><br>
+                    {% else %}
+                    <p>No image available</p>
+                    {% endif %}
+                </div>
+                {% if current_user_id == event.user_id and event.event_date >= current_date %}
+                <a href="{{ url_for('edit_event', event_id=event.id) }}" class="edit-btn">Edit Event</a>
+                <form action="{{ url_for('cancel_event', event_id=event.id) }}" method="post" style="display:inline;">
+                    <button type="submit" class="cancel-btn" onclick="return confirm('Are you sure you want to cancel this event?')">Cancel Event</button>
+                </form>
+                {% endif %}
+                {% if event.event_date >= current_date %}
+                <div class="rsvp-status">
+                    {% if rsvp_status[event.id] %}
+                    <p>RSVP Status: {{ rsvp_status[event.id] }}</p>
+                    {% else %}
+                    <a href="{{ url_for('rsvp_form', event_id=event.id) }}" class="rsvp-link">RSVP Now</a>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+</body>
+</html>

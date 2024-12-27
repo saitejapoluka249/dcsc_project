@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Event Organizer - Past Events</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- For icons -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+            margin: 0;
+            padding: 0;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #ffffff;
+            width: 90%;
+            max-width: 800px;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #FF9800;
+            font-weight: bold;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            background-color: #f9f9f9;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .event-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .event-details {
+            color: #555;
+            font-size: 16px;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .feedback-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-top: 10px;
+            display: inline-block;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .feedback-btn:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+        }
+
+        /* Back to Events Button */
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 24px;
+            font-size: 16px;
+            color: white;
+            background-color: #008CBA;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #007BB5;
+        }
+
+        .rsvp-status {
+            margin-top: 15px;
+            font-weight: bold;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Past Events</h1>
+        <a href="/events" class="back-btn">Back to Events</a>
+        <br><br>
+        <!-- Event Listings -->
+        <ul>
+            {% for event in events %}
+            <li>
+                <div class="event-title">{{ event.title }}</div>
+                <div class="event-details">
+                    <p>{{ event.description }}</p>
+                    <p><strong>Date:</strong> {{ event.event_date.strftime('%d-%m-%Y') }}</p>
+                    <!-- Display Event Image -->
+                    {% if event.image %}
+                    <img src="{{ event.image }}" alt="Event Image" style="width: 700px; height: auto;"><br><br>
+                    {% else %}
+                    <p>No image available</p>
+                    {% endif %}
+                </div>
+
+                <!-- RSVP Status -->
+                <div class="rsvp-status">
+                    {% if rsvp_status[event.id] %}
+                    <p>RSVP Status: {{ rsvp_status[event.id] }}</p>
+                    {% endif %}
+                </div>
+
+                <!-- Feedback Button for Past Events -->
+                {% if feedback_found.get(event.id) %}
+                <p>Feedback Completed</p>
+            {% elif rsvp_status.get(event.id) == "Yes" %}
+                <a href="{{ url_for('feedback', event_id=event.id) }}" class="feedback-btn">Leave Feedback</a>
+            {% endif %}
+            
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

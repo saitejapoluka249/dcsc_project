@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Filter</title>
+    <style>
+        /* Basic reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        .top-links {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .back-link {
+            color: #4CAF50;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            border: 2px solid #4CAF50;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .back-link:hover {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .filter-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .filter-container label {
+            font-size: 16px;
+            color: #4CAF50;
+            margin-bottom: 8px;
+        }
+
+        .filter-container input {
+            padding: 12px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            transition: border-color 0.3s ease;
+        }
+
+        .filter-container input:focus {
+            border-color: #4CAF50;
+        }
+
+        .filter-container button {
+            background-color: #008CBA;
+            color: white;
+            font-size: 16px;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .filter-container button:hover {
+            background-color: #007BB5;
+        }
+
+        #suggestions {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            max-height: 150px;
+            overflow-y: auto;
+            margin-top: 10px;
+            position: absolute;
+            width: calc(100% - 24px); /* Adjust width to fit within input box */
+            background-color: white;
+            z-index: 1;
+        }
+
+        #suggestions div {
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #suggestions div:hover {
+            background-color: #f1f1f1;
+        }
+
+        .info-text {
+            font-size: 14px;
+            color: #777;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .info-text a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        .info-text a:hover {
+            text-decoration: underline;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .filter-container .location-container {
+            position: relative;
+        }
+        .filter-container select {
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            color: #333;
+            font-size: 14px;
+            padding: 12px;
+            border-radius: 5px;
+            transition: border-color 0.3s ease, background-color 0.3s ease;
+        }
+
+        .filter-container select:focus {
+            border-color: #4CAF50;
+            background-color: #e7f7e7;
+        }
+
+        .filter-container select option {
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-links">
+        <a href="/events" class="back-link">Back to Events</a>
+    </div>
+
+    <div class="form-header">
+        <h1>Filter Events</h1>
+        <p>Search and filter events based on location and date</p>
+    </div>
+
+    <form action="{{ url_for('filter_events') }}" method="POST">
+        <div class="filter-container">
+            <div class="location-container">
+                <label for="location">Location:</label>
+                <input type="text" id="location" name="location" placeholder="Enter location..." autocomplete="off">
+                <div id="suggestions"></div> <!-- Autocomplete suggestions -->
+            </div>
+
+            <label for="date">Event Date:</label>
+            <input type="date" id="date" name="date">
+
+            <label for="category">Category:</label>
+            <select id="category" name="category">
+                <option value="Music">Music</option>
+                <option value="Art">Art</option>
+                <option value="Technology">Technology</option>
+                <option value="Sports">Sports</option>
+                <option value="Education">Education</option>
+                <option value="Food & Drink">Food & Drink</option>
+                <option value="Health & Wellness">Health & Wellness</option>
+                <option value="Business">Business</option>
+                <option value="Networking">Networking</option>
+                <option value="Charity">Charity</option>
+                <option value="Festivals">Festivals</option>
+                <option value="Workshops">Workshops</option>
+                <option value="Conferences">Conferences</option>
+                <option value="Comedy">Comedy</option>
+                <option value="Others">Others</option>
+            </select><br><br>
+
+            <button type="submit">Filter Events</button>
+        </div>
+    </form>
+
+    <div class="info-text">
+        <p>If you need help, <a href="#">Contact Support</a></p>
+    </div>
+
+    <script>
+        // Listen for input in the location field to trigger autocomplete
+        document.getElementById('location').addEventListener('input', function() {
+            var query = this.value;
+            if (query.length > 2) {  // Start searching after 3 characters
+                fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}&limit=5`)
+                    .then(response => response.json())
+                    .then(data => {
+                        var results = document.getElementById('suggestions');
+                        results.innerHTML = ''; // Clear previous suggestions
+                        data.forEach(location => {
+                            var suggestion = document.createElement('div');
+                            suggestion.innerHTML = location.display_name;
+                            suggestion.addEventListener('click', function() {
+                                document.getElementById('location').value = location.display_name;
+                                results.innerHTML = '';  // Clear suggestions on selection
+                            });
+                            results.appendChild(suggestion);
+                        });
+                    })
+                    .catch(err => console.error("Error fetching location data: ", err));
+            } else {
+                // Clear suggestions if input is too short
+                document.getElementById('suggestions').innerHTML = '';
+            }
+        });
+    </script>
+
+</body>
+</html>

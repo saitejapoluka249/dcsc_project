@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Event Organizer - Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- For icon -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 14px;
+            margin: 8px 0 4px;
+            color: #555;
+            text-align: left;
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .redirect {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .redirect a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .redirect a:hover {
+            text-decoration: underline;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            width: 300px;
+            text-align: center;
+        }
+
+        .popup button {
+            background-color: #ff4747;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Welcome to the Community Event Organizer</h2>
+        <p>Please log in to manage your events, RSVP to gatherings, and more!</p>
+        <form method="POST" action="/login">
+            <div>
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required placeholder="Enter your email">
+            </div>
+            <div>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="Enter your password">
+            </div>
+            <button type="submit">Login</button>
+        </form>
+
+        <div class="redirect">
+            <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+        </div>
+
+        {% if error %}
+        <div class="popup" id="errorPopup">
+            <div class="popup-content">
+                <p>{{ error }}</p>
+                <button onclick="closePopup()">Close</button>
+            </div>
+        </div>
+        <script>
+            // Show the popup if error message is passed
+            document.getElementById('errorPopup').style.display = 'flex';
+
+            // Function to close the popup
+            function closePopup() {
+                document.getElementById('errorPopup').style.display = 'none';
+            }
+        </script>
+        {% endif %}
+
+    </div>
+
+</body>
+</html>

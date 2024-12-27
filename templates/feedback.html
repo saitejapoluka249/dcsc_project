@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post-Event Feedback</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        .feedback-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .feedback-container label {
+            font-size: 16px;
+            color: #4CAF50;
+            margin-bottom: 8px;
+        }
+
+        .feedback-container input,
+        .feedback-container textarea {
+            padding: 12px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .feedback-container textarea {
+            height: 100px;
+        }
+
+        .feedback-container button {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .feedback-container button:hover {
+            background-color: #45a049;
+        }
+
+        .top-links {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-link {
+            font-size: 16px;
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Post-Event Feedback</h1>
+
+    <div class="feedback-container">
+        <form action="{{ url_for('submit_feedback') }}" method="POST">
+            <input type="hidden" name="event_id" value="{{ event_id }}">
+            <label for="rating">Rating (1 to 5):</label>
+            <input type="number" id="rating" name="rating" min="1" max="5" required>
+
+            <label for="comments">Comments:</label>
+            <textarea id="comments" name="comments" placeholder="Leave your comments..." required></textarea>
+
+            <button type="submit">Submit Feedback</button>
+        </form>
+    </div>
+
+    <!-- Back to Events Link -->
+    <div class="top-links">
+        <a href="/events" class="back-link">Back to Events</a>
+    </div>
+
+</body>
+</html>

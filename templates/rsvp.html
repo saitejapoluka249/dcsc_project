@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSVP for Event</title>
+    <style>
+        /* General Page Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #84fab0, #8fd3f4);
+            color: #333;
+        }
+
+        .container {
+            background-color: #ffffff;
+            width: 90%;
+            max-width: 600px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 32px;
+            color: #4CAF50;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        select {
+            padding: 12px;
+            font-size: 16px;
+            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            margin-bottom: 20px;
+        }
+
+        select:focus {
+            border-color: #4CAF50;
+            outline: none;
+            background-color: #fff;
+        }
+
+        button {
+            padding: 14px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #f44336;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #d32f2f;
+        }
+
+        .instructions {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>RSVP for Event</h2>
+        <p class="instructions">Let us know your availability for this event by selecting your RSVP status below.</p>
+        <form action="{{ url_for('rsvp') }}" method="POST">
+            <input type="hidden" name="event_id" value="{{ event_id }}">
+            
+            <label for="status">RSVP Status</label>
+            <select name="status" id="status" required>
+                <option value="Yes">Yes - I will attend</option>
+                <option value="No">No - I cannot attend</option>
+                <option value="Maybe">Maybe - I am not sure</option>
+            </select>
+            
+            <button type="submit">Submit RSVP</button>
+        </form>
+        <a href="{{ url_for('events') }}">Back to Events</a>
+    </div>
+</body>
+</html>
